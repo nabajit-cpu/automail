@@ -50,3 +50,4 @@ Edit `YOUR_NAME`, links, and template text in `public/app.js`.
 - Runs only on your machine; do not expose port 3847 to the internet without auth.
 - Respect CAN-SPAM / local laws; use for genuine job outreach only.
 # automail
+# automail
