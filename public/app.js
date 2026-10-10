@@ -24,19 +24,16 @@ ${YOUR_PHONE}`,
   },
   direct: {
     subject: (company, role) =>
-      `Application interest — ${role || "SDE"} @ ${company}`,
+      `${role || "Software Engineering"} opportunities at ${company}`,
     body: (company, role) =>
-      `Hi,
+      `Hi, I'm currently an SDE at Paytm, working on the hotel booking platform, with prior experience at Jio in real-time systems and Spring Boot.
 
-I am writing to express interest in ${role ? role + " opportunities" : "software engineering roles"} at ${company}. I am ${YOUR_NAME}, currently an SDE at Paytm (hotels booking platform) with prior experience at Jio on real-time and Spring Boot systems.
+I'm interested in ${role ? role + " opportunities" : "Software Engineering opportunities"} at ${company} and would appreciate the chance to connect.
 
-I would welcome a short conversation if my background fits your team.
-
-Portfolio: LinkedIn ${YOUR_LINKEDIN}
+LinkedIn: ${YOUR_LINKEDIN}
 
 Regards,
-${YOUR_NAME}
-${YOUR_PHONE}`,
+${YOUR_NAME}`,
   },
   followup: {
     subject: (company, role) =>
