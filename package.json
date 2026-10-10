@@ -1,18 +1,21 @@
 {
   "name": "cold-email-tracker",
   "version": "1.0.0",
-  "description": "Local cold email sender with SQLite tracking for job search",
-  "main": "server.js",
+  "description": "Cold email sender with send tracking, hosted on Netlify",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "netlify dev"
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
+    "@netlify/database": "^2.0.1",
+    "@netlify/functions": "^6.0.2",
+    "drizzle-orm": "^1.0.0-beta.22",
     "nodemailer": "^6.9.16"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^8.0.2",
+    "drizzle-kit": "^1.0.0-beta.22"
   }
 }
