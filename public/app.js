@@ -73,26 +73,9 @@ el("role_title").addEventListener("blur", () => {
   if (el("template").value !== "blank") applyTemplate();
 });
 
-const ACCESS_KEY_STORAGE = "automail_access_key";
-
-function getAccessKey(forcePrompt) {
-  let key = localStorage.getItem(ACCESS_KEY_STORAGE);
-  if (!key || forcePrompt) {
-    key = (window.prompt("Enter your access key") || "").trim();
-    if (key) localStorage.setItem(ACCESS_KEY_STORAGE, key);
-  }
-  return key || "";
-}
-
-async function api(path, options = {}, retried = false) {
-  const headers = { ...(options.headers || {}) };
-  if (!path.startsWith("/api/health")) headers["x-access-key"] = getAccessKey(false);
-  const res = await fetch(path, { ...options, headers });
+async function api(path, options = {}) {
+  const res = await fetch(path, options);
   const data = await res.json().catch(() => ({}));
-  if (res.status === 401 && !retried) {
-    localStorage.removeItem(ACCESS_KEY_STORAGE);
-    if (getAccessKey(true)) return api(path, options, true);
-  }
   if (!res.ok) throw new Error(data.error || res.statusText);
   return data;
 }
@@ -107,11 +90,8 @@ function showMessage(text, ok) {
 async function loadHealth() {
   const badge = el("smtpBadge");
   try {
-    const { smtpConfigured, accessKeyConfigured } = await api("/api/health");
-    if (!accessKeyConfigured) {
-      badge.textContent = "ACCESS_KEY not set";
-      badge.className = "badge badge-warn";
-    } else if (smtpConfigured) {
+    const { smtpConfigured } = await api("/api/health");
+    if (smtpConfigured) {
       badge.textContent = "SMTP ready";
       badge.className = "badge badge-ok";
     } else {
