@@ -1,7 +1,6 @@
 import type { Config } from "@netlify/functions";
 import nodemailer from "nodemailer";
 import { and, desc, eq, ilike, sql } from "drizzle-orm";
-import { timingSafeEqual } from "node:crypto";
 import { db } from "../../db/index.js";
 import { sends } from "../../db/schema.js";
 
@@ -28,14 +27,6 @@ async function sendMail({ to, subject, text }: { to: string; subject: string; te
 
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function authorized(req: Request) {
-  const expected = env("ACCESS_KEY");
-  if (!expected) return false;
-  const given = Buffer.from(req.headers.get("x-access-key") || "");
-  const want = Buffer.from(expected);
-  return given.length === want.length && timingSafeEqual(given, want);
 }
 
 const json = (data: unknown, status = 200) => Response.json(data, { status });
@@ -93,13 +84,8 @@ export default async (req: Request) => {
   const route = url.pathname.replace(/^\/api/, "").replace(/\/$/, "");
 
   if (route === "/health" && req.method === "GET") {
-    return json({ ok: true, smtpConfigured: smtpConfigured(), accessKeyConfigured: Boolean(env("ACCESS_KEY")) });
+    return json({ ok: true, smtpConfigured: smtpConfigured() });
   }
-
-  if (!env("ACCESS_KEY")) {
-    return json({ error: "ACCESS_KEY is not set. Add it in Netlify environment variables." }, 503);
-  }
-  if (!authorized(req)) return json({ error: "Unauthorized" }, 401);
 
   if (route === "/send" && req.method === "POST") return handleSend(req);
   if (req.method !== "GET") return json({ error: "Not found" }, 404);

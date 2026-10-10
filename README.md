@@ -6,7 +6,6 @@ Small app for job-search cold email: compose, send via your SMTP account, and tr
 
 In the Netlify UI go to **Project configuration → Environment variables** and add the variables listed in `.env.example`:
 
-- `ACCESS_KEY`: a long random string. The browser asks for it the first time you open the app. Without it set, the API refuses all requests, so strangers can't send email from your account.
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`: your SMTP credentials.
 - `FROM_NAME`, `FROM_EMAIL`: what recipients see in the "From" field.
 
@@ -34,11 +33,9 @@ Both **sent** and **failed** attempts get logged, so you always have a record be
 
 ## API
 
-All endpoints except `/api/health` need an `x-access-key` header.
-
 | Method | Path | Description |
 |--------|------|-------------|
-| GET | `/api/health` | SMTP / access key configured? |
+| GET | `/api/health` | SMTP configured? |
 | POST | `/api/send` | JSON body: recipient_email, company, role_title, subject, body |
 | GET | `/api/history?email=&company=` | List sends |
 | GET | `/api/count?email=` | Successful send count for one address |
