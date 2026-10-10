@@ -1,0 +1,5 @@
+node_modules/
+.env
+data/emails.json
+data/emails.json.tmp
+.DS_Store

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cold Email Tracker — Job Search</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div>
+      <h1>Cold Email Tracker</h1>
+      <p class="subtitle">Send outreach, log company &amp; body, see how many times you emailed each address.</p>
+    </div>
+    <div id="smtpBadge" class="badge badge-warn">Checking SMTP…</div>
+  </header>
+
+  <main class="layout">
+    <section class="card">
+      <h2>Compose &amp; send</h2>
+      <form id="sendForm">
+        <div class="grid-2">
+          <label>
+            Recipient email *
+            <input type="email" id="recipient_email" name="recipient_email" required placeholder="recruiter@company.com" />
+          </label>
+          <label>
+            Company *
+            <input type="text" id="company" name="company" required placeholder="Acme Corp" />
+          </label>
+        </div>
+        <label>
+          Role / context (optional)
+          <input type="text" id="role_title" name="role_title" placeholder="SDE — Backend" />
+        </label>
+        <label>
+          Template
+          <select id="template">
+            <option value="referral">Referral ask</option>
+            <option value="direct">Direct application</option>
+            <option value="followup">Follow-up</option>
+            <option value="blank">Blank</option>
+          </select>
+        </label>
+        <label>
+          Subject *
+          <input type="text" id="subject" name="subject" required />
+        </label>
+        <label>
+          Body *
+          <textarea id="body" name="body" rows="14" required></textarea>
+        </label>
+        <div class="row-actions">
+          <button type="button" class="btn secondary" id="previewCountBtn">Check send count for this email</button>
+          <span id="countHint" class="hint"></span>
+          <button type="submit" class="btn primary" id="sendBtn">Send email</button>
+        </div>
+        <p id="formMessage" class="message" hidden></p>
+      </form>
+    </section>
+
+    <aside class="side">
+      <section class="card side-summary">
+        <h2>Outreach summary</h2>
+        <div class="table-wrap table-wrap-tall">
+          <table id="statsSummary">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Mail</th>
+                <th>Mailed</th>
+                <th>Date &amp; time</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <section class="card history">
+    <div class="history-head">
+      <h2>History</h2>
+      <div class="filters">
+        <input type="search" id="filterEmail" placeholder="Filter by email" />
+        <input type="search" id="filterCompany" placeholder="Filter by company" />
+        <button type="button" class="btn secondary" id="refreshHistory">Refresh</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="historyTable">
+        <thead>
+          <tr>
+            <th>When</th>
+            <th>Email</th>
+            <th>Company</th>
+            <th>Role</th>
+            <th>Subject</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <dialog id="bodyDialog">
+    <form method="dialog">
+      <h3>Email body</h3>
+      <pre id="bodyDialogContent"></pre>
+      <button type="submit" class="btn secondary">Close</button>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
